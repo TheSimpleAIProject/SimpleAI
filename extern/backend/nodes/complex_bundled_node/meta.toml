@@ -1,5 +1,25 @@
 name = "complex_bundled_node"
 description = "A complex bundled node"
 author = "Author"
-date = "2025-03-05T19:02:06.992988239Z"
-impls = [[{ deps = [{ name = "serde", versions = ["1.0"], lib = true }] }, "347d4e7d76b463a7b8415486415c698bf2c792ee6384f96eca96e1d45a2f3986"]]
+date = "2025-03-10T12:33:26.326848257Z"
+
+[[versions]]
+version = "0.0.1"
+
+[[versions.env.deps]]
+name = "serde"
+versions = ["1.0"]
+lib = true
+
+[[versions]]
+version = "0.0.2"
+
+[[versions.env.deps]]
+name = "serde"
+versions = ["1.0"]
+lib = true
+
+[[versions.env.deps]]
+name = "torch"
+versions = ["2.0"]
+lib = true

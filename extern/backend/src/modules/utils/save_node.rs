@@ -16,7 +16,7 @@ pub struct SaveNode {
     pub description: String,
     pub author: String,
     pub compiled: Option<String>,
-    pub environment: Environment,
+    pub version: Version,
     pub date: Date,
 }
 
@@ -39,7 +39,10 @@ impl From<Node> for SaveNode {
             .description(node.description.clone())
             .author(node.author.clone())
             .compiled(node.compiled.clone())
-            .environment(node.clone().get_full_env())
+            .version(Version {
+                version: node.version.version.clone(),
+                env: node.clone().get_full_env(),
+            })
             .date(node.date);
 
         if let NodeKind::Code { code } = node.kind {

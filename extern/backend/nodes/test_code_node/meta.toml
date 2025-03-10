@@ -1,5 +1,10 @@
 name = "test_code_node"
 description = "A simple code node"
 author = "Author"
-date = "2025-03-05T17:47:07.471655003Z"
-impls = [[{ deps = [] }, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"]]
+date = "2025-03-10T12:33:26.326772004Z"
+
+[[versions]]
+version = "0.0.1"
+
+[versions.env]
+deps = []

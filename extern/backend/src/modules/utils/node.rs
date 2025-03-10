@@ -16,17 +16,17 @@ pub type WeakNode = WeakContext<Node>;
 pub struct Node {
     pub name: String,
     pub params: Vec<StrongParam>,
+    pub version: Version,
     pub kind: NodeKind,
     pub description: String,
     pub author: String,
     pub compiled: Option<String>, // or and bytes...
-    pub environment: Environment,
     pub date: Date,
 }
 
 impl Node {
     pub fn get_full_env(self) -> Environment {
-        let mut env = self.environment;
+        let mut env = self.version.env;
         if let NodeKind::Bundled { bundle } = self.kind {
             for context in bundle.tree.iter() {
                 let node: Node = context.context.try_lock().unwrap().to_owned();
@@ -80,7 +80,10 @@ impl From<SaveNode> for Node {
             .description(node.description)
             .author(node.author)
             .compiled(node.compiled)
-            .environment(node.environment)
+            .version(Version {
+                version: node.version.version,
+                env: node.version.env,
+            })
             .date(node.date)
             .params(params);
 

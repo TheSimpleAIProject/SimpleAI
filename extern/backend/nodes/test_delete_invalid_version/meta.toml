@@ -1,0 +1,10 @@
+name = "test_delete_invalid_version"
+description = "A node with a single version"
+author = "Author"
+date = "2025-03-10T18:11:02.512933191Z"
+
+[[versions]]
+version = "1.0.0"
+
+[versions.env]
+deps = []

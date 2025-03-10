@@ -6,9 +6,9 @@ pub mod environment;
 pub mod metadata;
 pub mod node;
 pub mod param;
+pub mod query_filter;
 pub mod save_node;
 pub mod save_param;
-pub mod search;
 
 pub mod prelude {
     pub use super::container::*;
@@ -19,11 +19,9 @@ pub mod prelude {
     pub use super::metadata::*;
     pub use super::node::*;
     pub use super::param::*;
+    pub use super::query_filter::*;
     pub mod save {
         pub use super::super::save_node::*;
         pub use super::super::save_param::*;
-    }
-    pub mod search {
-        pub use super::super::search::*;
     }
 }
