@@ -1,13 +1,16 @@
 // %%% components / node.rs %%%
 
+use simple_ai_backend::modules::utils::node::StrongNode;
+use simple_ai_backend::modules::utils::param::ParamKind;
+
 // %% includes %%
 use super::runtime_param::{InternRuntimeParam, RuntimeParam};
-use super::static_param::{InternStaticParam, StaticParam};
+use super::static_param::InternStaticParam;
 use super::utils::*;
 
 // %% main %%
 // % transferrer % //
-pub static NODE_TRANSFERER: GlobalSignal<Option<simple_ai_backend::prelude::Node>> =
+pub static NODE_TRANSFERER: GlobalSignal<Option<simple_ai_backend::modules::utils::node::Node>> =
     GlobalSignal::new(|| None);
 
 // % Node % //
@@ -41,7 +44,7 @@ impl From<StrongNode> for InternNode {
         let node = node_ctx.context.try_lock().unwrap();
         let mut runtime_params = Vec::<InternRuntimeParam>::new();
         let mut static_params = Vec::<InternStaticParam>::new();
-        node.params.iter().for_each(move |param_ctx| {
+        node.get_params().iter().for_each(move |param_ctx| {
             let param = param_ctx.context.try_lock().unwrap();
             match param.kind {
                 ParamKind::Runtime { .. } => {
@@ -79,12 +82,11 @@ pub fn Node(intern: InternNode) -> Element {
         }
     });
 
-    let rendered_params = intern
-        .runtime_params
-        .iter()
-        .map(|intern| rsx! {
+    let rendered_params = intern.runtime_params.iter().map(|intern| {
+        rsx! {
             RuntimeParam { intern: intern.clone() }
-        });
+        }
+    });
 
     rsx! {
         body {

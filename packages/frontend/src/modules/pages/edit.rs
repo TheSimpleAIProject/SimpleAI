@@ -9,8 +9,8 @@ pub struct Project {
 #[page]
 pub fn Edit() -> Element {
     let mut proj = Project {
-        name: "".into(),
-        description: "".into(),
+        name: "bundlenode".into(),
+        description: "hello this is bundlenode".into(),
     };
     rsx! {
         main {

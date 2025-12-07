@@ -53,7 +53,7 @@ function drawRoundedRect(ctx, x, y, width, height, radius = 6, options = {}) {
   }
 }
 
-class Parameter {
+class VNodeParameter {
   constructor(type = "input", name = "") {
     this.type = type; // "input" or "output"
     this.name = name;
@@ -87,7 +87,7 @@ class VNode {
     this.label = label;
     // params is array of Parameter instances or plain objects {type,name}
     this.params = params.map((p) =>
-      p instanceof Parameter ? p : new Parameter(p.type, p.name),
+      p instanceof VNodeParameter ? p : new VNodeParameter(p.type, p.name),
     );
     this.inputs = this.params.filter((p) => p.type === "input");
     this.outputs = this.params.filter((p) => p.type === "output");
@@ -186,7 +186,7 @@ class VNode {
   }
 }
 
-class Connection {
+class VConnection {
   constructor(fromNode, fromOutput, toNode, toInput) {
     this.fromNode = fromNode;
     this.fromOutput = fromOutput;
@@ -232,10 +232,13 @@ class Connection {
 }
 
 class Viewport {
-  constructor(containerElement, options = {}) {
+  constructor(dioxus, containerElement, options = {}) {
     if (!(containerElement instanceof HTMLElement)) {
       throw new Error("Viewport constructor requires a DOM container element");
     }
+
+    this.dioxus = dioxus;
+
     // options and defaults
     this.gridSpacing = options.gridSpacing || 40;
     this.dotRadius = options.dotRadius || 2;
@@ -292,13 +295,6 @@ class Viewport {
     this._onResize();
   }
 
-  // convenience factory
-  createNode(x, y, label, params = []) {
-    const node = new VNode(x, y, label, params);
-    this.addNode(node);
-    return node;
-  }
-
   addNode(node) {
     this.nodes.push(node);
     this.draw();
@@ -312,12 +308,24 @@ class Viewport {
 
     let { x, y } = this.toEditor(position.x - rect.x, position.y - rect.y);
 
-    this.addNode(
-      new window.VNode(x, y, "SampleNODE", [
-        new window.Parameter("input", "inA"),
-        new window.Parameter("output", "outA"),
-      ]),
+    this.dioxus.send({
+      AddNode: { id: "00000000-0000-0000-0000-000000000000", x: x, y: y },
+    });
+  }
+
+  handleAddNode(jsonNode) {
+    let node = new VNode(
+      jsonNode.x,
+      jsonNode.y,
+      jsonNode.label,
+      jsonNode.params,
     );
+    console.log(node);
+    this.addNode(node);
+  }
+
+  save() {
+    return { nodes: this.nodes, connections: this.connections };
   }
 
   addConnection(conn) {
@@ -521,7 +529,7 @@ class Viewport {
         let inIdx = node.inputHit(p.x, p.y);
         if (inIdx !== null && node !== this.connectingFrom.node) {
           this.connections.push(
-            new Connection(
+            new VConnection(
               this.connectingFrom.node,
               this.connectingFrom.outIdx,
               node,
@@ -602,6 +610,6 @@ class Viewport {
   }
 }
 
-window.Parameter = Parameter;
+window.Parameter = VNodeParameter;
 window.VNode = VNode;
 window.Viewport = Viewport;

@@ -55,5 +55,4 @@ pub mod prelude {
 // %% utils %%
 pub(crate) mod utils {
     pub use crate::utils::*;
-    pub use simple_ai_backend::prelude::*;
 }

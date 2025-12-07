@@ -3,7 +3,7 @@ use fuzzy_matcher::{skim::SkimMatcherV2, FuzzyMatcher};
 
 // ---------------- QUERY FILTER ---------------- //
 #[derive(Clone)]
-pub enum QueryFilter {
+pub enum NodeQueryFilter {
     Older { date: Date },
     Newer { date: Date },
     Author { author: String },
@@ -11,20 +11,50 @@ pub enum QueryFilter {
     Name { name: String },
 }
 
-impl QueryFilter {
+#[derive(Clone)]
+pub enum ProjectQueryFilter {
+    Older { date: Date },
+    Newer { date: Date },
+    Name { name: String },
+    Author { author: String },
+    Node { node: String },
+}
+
+impl NodeQueryFilter {
     pub fn is_ok(self, node: Node) -> bool {
         match self {
-            QueryFilter::Name { name } => {
+            NodeQueryFilter::Name { name } => {
                 let matcher = SkimMatcherV2::default();
                 matcher.fuzzy_match(&node.name, &name).is_some()
             }
-            QueryFilter::Older { date } => date > node.date,
-            QueryFilter::Newer { date } => date < node.date,
-            QueryFilter::Author { author } => {
+            NodeQueryFilter::Older { date } => date > node.date,
+            NodeQueryFilter::Newer { date } => date < node.date,
+            NodeQueryFilter::Author { author } => {
                 let matcher = SkimMatcherV2::default();
                 matcher.fuzzy_match(&node.author, &author).is_some()
             }
-            QueryFilter::Environment { env } => env.merge(&node.version.env).is_ok(),
+            NodeQueryFilter::Environment { env } => env.merge(&node.version.env).is_ok(),
+        }
+    }
+}
+
+impl ProjectQueryFilter {
+    pub fn is_ok(self, project: &Project) -> bool {
+        match self {
+            ProjectQueryFilter::Name { name } => {
+                let matcher = SkimMatcherV2::default();
+                matcher.fuzzy_match(&project.name, &name).is_some()
+            }
+            ProjectQueryFilter::Node { node } => {
+                let matcher = SkimMatcherV2::default();
+                matcher.fuzzy_match(&project.node, &node).is_some()
+            }
+            ProjectQueryFilter::Older { date } => date > project.date,
+            ProjectQueryFilter::Newer { date } => date < project.date,
+            ProjectQueryFilter::Author { author } => {
+                let matcher = SkimMatcherV2::default();
+                matcher.fuzzy_match(&project.author, &author).is_some()
+            }
         }
     }
 }

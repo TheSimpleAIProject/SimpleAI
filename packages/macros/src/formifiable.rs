@@ -19,6 +19,7 @@ pub fn macro_impl(item: TokenStream) -> TokenStream {
                 input {
                     class: "FormifyInput",
                     name: {#field_name},
+                    value: {self.#field_ident.clone()},
                     required: true,
                     r#type: "text",
                 }

@@ -1,10 +1,11 @@
 // %%% components / viewport.rs %%%
 
+use simple_ai_backend::modules::utils::{node::StrongNode, prelude::NodeContainer};
+
 use crate::modules::pages::utils::NODE_TRANSFERER;
 
 // %% includes %%
 use super::utils::*;
-use simple_ai_backend::prelude::*;
 
 // %% main %%
 #[derive(Clone)]
@@ -38,9 +39,11 @@ pub fn Viewport(
 ) -> Element {
     // ------------------------------ VARIABLES ------------------------------ //
     let fnc = node_container().frontend_node_container.cloned();
-    let rendered_nodes = fnc
-        .iter()
-        .map(|intern| rsx! { super::node::Node { intern: intern.clone() } });
+    let rendered_nodes = fnc.iter().map(|intern| {
+        rsx! {
+            super::node::Node { intern: intern.clone() }
+        }
+    });
 
     let get_client_rect = move || async move {
         if let Some(data) = mounted_data() {
@@ -190,7 +193,7 @@ pub fn Viewport(
                 transform: "translate({position().x}px, {position().y}px) scale({scale()})",
                 user_select: "none",
                 onmounted: mounted,
-                { rendered_nodes }
+                {rendered_nodes}
             }
         }
     }

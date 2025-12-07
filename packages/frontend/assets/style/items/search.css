@@ -8,11 +8,13 @@
 }
 
 .Search > header {
+  width: 100%;
   position: sticky;
   background-color: rgba(var(--background-highlight-color), 0.5);
 }
 
 .Search > main {
+  width: 100%;
   padding: 1rem 0;
   flex-grow: 1;
   display: flex;

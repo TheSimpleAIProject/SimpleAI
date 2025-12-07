@@ -1,4 +1,4 @@
-use crate::modules::nms::check_name;
+use crate::modules::nodes::check_name;
 use crate::modules::utils::prelude::*;
 use anyhow::Result;
 use std::fs::{self, create_dir, create_dir_all, File};
@@ -9,6 +9,7 @@ use toml;
 // #[cfg(feature = "desktop")]
 pub fn save_node(node: Node) -> Result<(), String> {
     let name = node.name.clone();
+    let author = node.author.clone();
 
     if !check_name(name.clone()) {
         return Err(format!(
@@ -17,7 +18,7 @@ pub fn save_node(node: Node) -> Result<(), String> {
         ));
     }
 
-    let node_path = Path::new("nodes/").join(&name);
+    let node_path = Path::new("nodes/").join(&author).join(&name);
     if !node_path.exists() {
         create_dir_all(&node_path).map_err(|e| e.to_string())?;
     }

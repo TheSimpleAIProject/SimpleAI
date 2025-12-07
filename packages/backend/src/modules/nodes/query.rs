@@ -23,7 +23,7 @@ pub fn get_all_nodes() -> Result<NodeContainer, String> {
         let save_node: SaveNode = bincode::deserialize(&data)
             .map_err(|e| format!("Failed to deserialize {}: {}", path.display(), e))?;
 
-        let node = Node::from(save_node);
+        let node = Node::from_save_node(save_node, None);
         nc.push_context(StrongNode::from(node));
     }
 
@@ -31,13 +31,13 @@ pub fn get_all_nodes() -> Result<NodeContainer, String> {
 }
 
 /// This function searches through all available Nodes and returns a NodeContainer containing all Nodes available for the inferred environment.
-pub fn query_nodes(query_filter: Vec<QueryFilter>) -> NodeContainer {
+pub fn query_nodes(query_filters: Vec<NodeQueryFilter>) -> NodeContainer {
     let all_nodes = get_all_nodes().expect("Error walking directory!");
 
     all_nodes
         .iter()
         .filter(|node| {
-            query_filter.iter().all(|filter| {
+            query_filters.iter().all(|filter| {
                 filter
                     .clone()
                     .is_ok(node.context.try_lock().unwrap().to_owned())

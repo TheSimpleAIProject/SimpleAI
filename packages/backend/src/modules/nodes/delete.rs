@@ -4,8 +4,8 @@ use std::path::Path;
 
 use crate::modules::utils::prelude::*;
 
-pub fn delete_node(name: String, version: Option<String>) -> Result<(), String> {
-    let node_path = Path::new("nodes/").join(&name);
+pub fn delete_node(author: String, name: String, version: Option<String>) -> Result<(), String> {
+    let node_path = Path::new("nodes/").join(&author).join(&name);
     let meta_path = node_path.join("meta.toml");
 
     if !node_path.exists() {

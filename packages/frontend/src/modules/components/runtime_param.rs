@@ -1,5 +1,7 @@
 // %%% components / runtime_param.rs %%%
 
+use simple_ai_backend::modules::utils::param::{ParamKind, RuntimeParamKind, StrongParam};
+
 // %% includes %%
 use super::connection::{Connection, InternConnection};
 use super::utils::*;
@@ -30,8 +32,7 @@ impl From<StrongParam> for InternRuntimeParam {
 #[component]
 pub fn RuntimeParam(intern: InternRuntimeParam) -> Element {
     rsx! {
-        body {
-            class: "Param",
+        body { class: "Param",
             Connection { intern: (intern.connection)() }
         }
     }

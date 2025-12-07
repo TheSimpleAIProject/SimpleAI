@@ -1,7 +1,7 @@
 name = "bundled_node"
 description = "A bundled node"
 author = "Author"
-date = "2025-03-10T12:33:26.326778746Z"
+date = "2025-12-04T12:05:46.983020666Z"
 
 [[versions]]
 version = "0.0.1"

@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 dioxus = { workspace = true, features = ["router"]}
+uuid = { workspace = true }
 simple-ai-backend = { workspace = true }
 simple-ai-macros = { workspace = true }
 async-recursion = { version = "1.1" }

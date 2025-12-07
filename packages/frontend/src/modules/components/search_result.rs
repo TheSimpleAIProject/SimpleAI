@@ -1,7 +1,8 @@
 // %%% components / search_result.rs %%%
 
+use simple_ai_backend::modules::utils::node::Node;
+
 // %% includes %%
-use super::draggable::Draggable;
 use super::node::NODE_TRANSFERER;
 use super::utils::*;
 
@@ -29,6 +30,8 @@ pub fn SearchResult(intern: InternSearchResult) -> Element {
 
     rsx! {
         article {
+            class: "draggable-node",
+            id: "{intern.node.cloned().author}/{intern.node.cloned().name}",
             h3 {
                 span { id: "name", "{intern.node.cloned().name}" }
             }

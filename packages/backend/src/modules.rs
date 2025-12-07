@@ -1,3 +1,3 @@
-pub mod compiler;
-pub mod nms;
+pub mod nodes;
+pub mod projects;
 pub mod utils;

@@ -1,5 +1,7 @@
 // %%% components / connection.rs %%%
 
+use simple_ai_backend::modules::utils::param::RuntimeParamKind;
+
 // %% includes %%
 use super::utils::*;
 

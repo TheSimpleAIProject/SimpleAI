@@ -16,6 +16,7 @@ simple-ai-backend = { path = "packages/backend" }
 simple-ai-frontend = { path = "packages/frontend" }
 simple-ai-macros = { path = "packages/macros" }
 
+uuid = { version = "1.19", features = [ "v5" ]}
 dioxus = { version = "0.7.1" }
 
 [profile]

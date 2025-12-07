@@ -1,8 +1,9 @@
 // %%% components / static_param.rs %%%
 
+use simple_ai_backend::modules::utils::param::StrongParam;
+
 // %% includes %%
 use super::utils::*;
-use simple_ai_backend::prelude::*;
 
 // %% main %%
 #[derive(PartialEq, Props, Clone)]
@@ -19,9 +20,7 @@ impl From<StrongParam> for InternStaticParam {
 #[component]
 pub fn StaticParam(style: String, intern: InternStaticParam) -> Element {
     rsx! {
-        style { { style } }
-        body {
-            class: "Param",
-        }
+        style { {style} }
+        body { class: "Param" }
     }
 }
